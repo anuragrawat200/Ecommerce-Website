@@ -1,5 +1,12 @@
 # Ecommerce-website
-
+• Made the shopping , contact us , about us , checkout , tracker
+web pages
+• Order id is given after ordering and saved to database
+• Cart popover to show the current selected items with quantity
+and price
+• User login and register authentication
+• Added audio instructions when mouse hover over Product ,
+Login , Register
 
 ![Screenshot (13)](https://user-images.githubusercontent.com/73066457/147845441-5692197c-5ca3-4d5c-9e03-c08046acfec2.png)
 ![Screenshot (14)](https://user-images.githubusercontent.com/73066457/147845442-c7e397e1-3551-4715-82a3-944fdca7be25.png)
