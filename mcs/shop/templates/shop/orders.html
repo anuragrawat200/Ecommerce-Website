@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>orders</title>
+</head>
+<body>
+
+<h1>here are your orders</h1>
+
+{% for i in orders %}
+<h1>Next</h1>
+
+<h3>{{i.name}}</h3>
+
+<h3>{{i.items_json}}</h3>
+
+
+<h3>{{i.email}}</h3>
+<h3>{{i.address}}</h3>
+<h3>{{i.city}}</h3>
+
+
+{% endfor %}
+
+
+</body>
+</html>

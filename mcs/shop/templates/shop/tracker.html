@@ -1,0 +1,150 @@
+{% extends 'shop/basic.html' %}
+{% block title%} My Awesome Cart Tracker{% endblock %}
+{% block body %}
+<div class="container" id="kalekave">
+    <div class="col my-4" >
+        <h2>Enter your Order Id and Email address to track your order</h2>
+        <form method="post" action="#" id="trackerForm">{% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="orderid">Order Id</label>
+                    <input type="text" class="form-control" id="orderid" name="helloorderid" placeholder="Order Id">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="helloemail" placeholder="Email">
+                </div>
+                <button type="submit" class="btn btn-primary">Track Order</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col my-4">
+        <h2>Your Order Status</h2>
+        <div class="my-4">
+            <ul class="list-group" id="items">
+            	Enter your order Id and Email and click Track Order to find details about your order!
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+$('#trackerForm').submit(function(event) {
+
+    var formData = {
+        'formorderid': $('input[name=helloorderid]').val(),
+        'formemail': $('input[name=helloemail]').val(),
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+    };
+
+    $.ajax({
+            type: 'POST',
+            url: '/shop/tracker/',
+            data: formData,
+            encode: true
+        })
+        .done(function(data) {
+            console.log(data)
+            updates = JSON.parse(data);
+            $('#kalekave').empty();                            // to empty the preexisting status of order and then appending again
+            $('#kalekave').append(`<h3 style="margin-top:20px">Here are your order details</h3>`);
+            if (updates.length > 0 & updates != {}) {
+                for (i = 0; i < updates.length; i++) {
+                    let text = updates[i]['text'];
+                    let time = updates[i]['time'];
+                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${text}
+                    <span class="badge badge-primary badge-pill">${time}</span>
+                </li>`
+                    $('#kalekave').append(mystr);
+                }
+            } else {
+            	mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    Sorry, We are not able to fetch this order id and email. Make sure to type correct order Id and email</li>`
+            	$('#kalekave').append(mystr);
+            }
+        });
+
+    event.preventDefault();
+
+
+
+
+
+});
+
+
+
+</script>
+{% endblock %}
+
+
+<!--<div class="container">-->
+<!--    <div class="col my-4">-->
+<!--        <h2>Track your order</h2>-->
+<!--       <form method="post" action="/shop/tracker/" id="trackerForm" >{% csrf_token %}  &lt;!&ndash; action="/shop/tracker/"&ndash;&gt;-->
+<!--            <div class="form-row">-->
+<!--                <div class="form-group col-md-6">-->
+<!--                    <label for="orderid">Name</label>-->
+<!--                    <input type="text" class="form-control" id="orderid" name="orderid" placeholder="orderid">-->
+<!--                </div>-->
+<!--                <div class="form-group col-md-6">-->
+<!--                    <label for="email">Email</label>-->
+<!--                    <input type="email" class="form-control" id="email" name="email" placeholder="email">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <button type="submit" class="btn btn-primary">Track Order</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="container">-->
+<!--    <div class="col my-4" id="items">-->
+<!--        <h2>Here is your update</h2>-->
+
+<!--    </div>-->
+<!--</div>-->
+
+
+
+
+<!--<script>-->
+<!--$('#trackerForm').submit(function(event) {-->
+<!--    $('#items').empty();-->
+<!--    var formData = {-->
+<!--        'orderid': $('input[name=orderid]').val(),-->
+<!--        'email': $('input[name=email]').val(),-->
+<!--        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()-->
+<!--    };-->
+<!--    $.ajax({-->
+<!--            type: 'POST',-->
+<!--            url: '/shop/tracker/',-->
+<!--            data: formData,-->
+<!--            encode: true-->
+<!--        })-->
+<!--        .done(function(data) {-->
+<!--            console.log(data)-->
+<!--            updates = JSON.parse(data);-->
+<!--            if (updates.length > 0 & updates != {}) {-->
+<!--                for (i = 0; i < updates.length; i++) {-->
+<!--                    let text = updates[i]['text'];-->
+<!--                    let time = updates[i]['time'];-->
+<!--                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--                    ${text}-->
+<!--                    <span class="badge badge-primary badge-pill">${time}</span>-->
+<!--                </li>`-->
+<!--                    $('#items').append(mystr);-->
+<!--                }-->
+<!--            } else {-->
+<!--            	mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--                    Sorry, We are not able to fetch this order id and email. Make sure to type correct order Id and email</li>`-->
+<!--            	$('#items').append(mystr);-->
+<!--            }-->
+<!--        });-->
+<!--    event.preventDefault();-->
+<!--});-->
+<!--</script>-->
+
+
+
